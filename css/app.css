@@ -1,0 +1,398 @@
+html {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+*,
+*::before,
+*::after {
+    -webkit-box-sizing: inherit;
+    -moz-box-sizing: inherit;
+    box-sizing: inherit;
+}
+
+html,
+body {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background: #ffffff url('../img/geometry2.png'); /* Background pattern from Subtle Patterns */
+    font-family: 'Coda', cursive;
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+h1 {
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 300;
+}
+
+/*
+ * Styles for the deck of cards
+ */
+
+.deck {
+    width: 660px;
+    min-height: 680px;
+    background: linear-gradient(160deg, #02ccba 0%, #aa7ecd 100%);
+    padding: 32px;
+    border-radius: 10px;
+    box-shadow: 12px 15px 20px 0 rgba(46, 61, 73, 0.5);
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0 0 3em;
+}
+
+.deck .card {
+    height: 125px;
+    width: 125px;
+    background: #2e3d49;
+    font-size: 0;
+    color: #ffffff;
+    border-radius: 8px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 5px 2px 20px 0 rgba(46, 61, 73, 0.5);
+
+}
+/********* Open New Cared **********/
+.deck .card.open {
+    pointer-events: none;
+    transition: all 0.5s ease;
+    transform: rotateY(360deg);
+    background: #02b3e4;
+    cursor: default;   
+}
+.deck .card.show {
+    font-size: 33px;
+}
+/************* A Correct Guess *************/
+.deck .card.match {
+    pointer-events: none;
+    animation-name: rubberBand;
+    animation-duration: 0.6s;
+    background: #02ccba;
+    font-size: 33px;
+    cursor: default;
+}
+@keyframes rubberBand {
+    from {transform: scale3d(1, 1, 1);}
+    30% {transform: scale3d(1.25, 0.75, 1);}
+    40% {transform: scale3d(0.75, 1.25, 1);}
+    50% {transform: scale3d(1.15, 0.85, 1);}
+    65% {transform: scale3d(.95, 1.05, 1);}
+    75% {transform: scale3d(1.05, .95, 1);}
+    to {transform: scale3d(1, 1, 1);}
+  }
+  .rubberBand {
+    animation-name: rubberBand;
+  }
+  /************* An Incorrect Guess **************/
+.deck .card.NOmatch {
+    pointer-events: none;
+    animation-name: wobble;
+    animation-duration: 0.6s;
+    background: #EE7752;
+    font-size: 33px;
+    cursor: default;
+}
+  @keyframes wobble {
+    0% {transform: none}
+    15% {transform: translate3d(-25%, 0, 0) rotate3d(0, 0, 1, -5deg)}
+    30% {transform: translate3d(20%, 0, 0) rotate3d(0, 0, 1, 3deg)}
+    45% {transform: translate3d(-15%, 0, 0) rotate3d(0, 0, 1, -3deg)}
+    60% {transform: translate3d(10%, 0, 0) rotate3d(0, 0, 1, 2deg)}
+    75% {transform: translate3d(-5%, 0, 0) rotate3d(0, 0, 1, -1deg)}
+    100% {transform: none}
+  }
+  .wobble {
+    animation-name: wobble
+  }
+/*
+ * Styles for the Score Panel
+ */
+ .score-panel {
+    text-align: left;
+    width: 445px;
+    margin-bottom: 10px;
+    display: inline-block;
+}
+.stars {
+    padding: 0;
+    display: inline-block;
+    margin: 0 5px 0 0;
+}
+.star {
+    list-style-type: none;
+    display: inline-block;
+    color: #ffcd00;
+}
+.empty-star {
+    color: transparent;
+    -webkit-text-stroke-width: 1.5px;
+    -webkit-text-stroke-color: #ffcd00;
+}
+#timer {
+    float: right;
+    margin-right: 2rem;
+
+}
+.score-panel .restart {
+    float: right;
+    cursor: pointer;
+}
+/*
+ * Styles for the modal
+ */
+ /*correct icon animation*/
+ svg {
+    width: 100px;
+    display: block;
+    margin: 40px auto 0;
+  }
+  .path {
+    stroke-dasharray: 1000;
+    stroke-dashoffset: 0;
+  }
+  .path.circle {
+    animation: dash 0.9s ease-in-out;
+  }
+  .path.line {
+    stroke-dashoffset: 1000;
+    animation: dash 0.9s 0.35s ease-in-out forwards;
+  }
+  .path.check {
+    stroke-dashoffset: -100;
+    animation: dash-check 0.9s 0.35s ease-in-out forwards;
+  }
+  p {
+    text-align: center;
+    margin: 20px 0 60px;
+    font-size: 1.25em;
+  }
+  p.success {
+    color: #77b11c;
+  }
+  @keyframes dash 
+    {0% {stroke-dashoffset: 1000;}
+    100% {stroke-dashoffset: 0;}
+  }
+  @keyframes dash-check {
+    0% {stroke-dashoffset: -100;}
+    100% {stroke-dashoffset: 900;}
+  }
+ /************* Modal Styles**********/
+  .modal__overlay {
+    display: none;
+    background: #fff;
+    bottom: 0;
+    left: 0;
+    position: fixed;
+    right: 0;
+    text-align: center;
+    top: 0;
+    z-index: -800;
+  } 
+  .modal__overlay {
+    opacity: 1;
+    -webkit-transform: scale(1);
+    -ms-transform: scale(1);
+    transform: scale(1);
+    -webkit-transition: all 0.75s cubic-bezier(0.19, 1, 0.22, 1);
+    transition: all 0.75s cubic-bezier(0.19, 1, 0.22, 1);
+    z-index: 800;
+  }
+  .modal__box {
+    padding: 1em .75em;
+    position: relative;
+    margin: 1em auto;
+    max-width: 500px;
+    width: 90%;
+  }
+  @media (min-height: 37.5em) {
+  
+  .modal__box {
+    left: 50%;
+    position: absolute;
+    top: 50%;
+    -webkit-transform: translate(-50%, -80%);
+    -ms-transform: translate(-50%, -80%);
+    transform: translate(-50%, -80%);
+  }
+  }
+  @media (min-width: 50em) {
+  
+  .modal__box { padding: 1.75em; }
+  }
+ /* *** Button Styles *****/ 
+  .btn {
+    color: white;
+    cursor: pointer;
+    background-color: #77b11c;
+    background-repeat: no-repeat;
+    display: inline-block;
+    text-decoration: none;
+    padding: 1em 2em;
+  }
+
+/********** CSS Breakpoints *************/
+
+@media screen and (max-width: 1024px) {
+    .container {
+        width: 90%;
+        height: initial;
+    }
+    .deck .card  {
+        width: 130px;
+        height: 130px;
+    }
+}
+@media screen and (max-width: 840px) {
+  .container {
+    width: 100%;
+}
+  .deck .card  {
+        width: 125px;
+        height: 125px;
+    }
+}
+@media screen and (max-width: 650px) {
+    .deck {
+        width: 95%;
+    }
+    .deck .card  {
+      width: 120px;
+      height: 120px;
+  }
+}
+
+@media screen and (max-width: 580px) {
+  .deck {
+    min-height: 550px;
+  }
+  .deck {
+        width: 95%;
+        height: 95%;
+    }
+    .deck .card  {
+      width: 105px;
+      height: 105px;
+    }
+
+}
+@media screen and (max-width: 510px) {
+  .deck {
+    min-height: 480px;
+  }
+  .deck .card  {
+        width: 90px;
+        height: 90px;
+    }
+  .score-panel {
+    text-align: left;
+    width: 333px;
+    margin-bottom: 10px;
+    display: inline-block;
+  }
+  .score-panel .moves {
+      margin: 5px auto;
+  }
+  
+  #timer {
+    float: right;
+    margin-right: 15px;
+  }
+  
+  .score-panel .restart {
+    float: right;
+    cursor: pointer;
+  }
+}
+@media screen and (max-width: 446px) {
+  .deck {
+    min-height: 420px;
+  }
+  .deck .card  {
+        width: 75px;
+        height: 75px;
+    }
+  .score-panel {
+    text-align: left;
+    width: 333px;
+    margin-bottom: 10px;
+    display: inline-block;
+  }
+  .score-panel .moves {
+      margin: 5px auto;
+  }
+  
+  #timer {
+    float: right;
+    margin-right: 15px;
+  }
+  
+  .score-panel .restart {
+    float: right;
+    cursor: pointer;
+  }
+}
+
+@media screen and (max-width: 406px) {
+  .deck .card  {
+    width: 70px;
+    height: 70px;
+  }
+  .score-panel {
+    text-align: center;
+    width: 280px;
+    margin-bottom: 10px;
+
+  }
+}
+
+@media screen and (max-width: 365px) {
+  .deck {
+    min-height: 370px;
+  }
+  .deck .card  {
+    width: 60px;
+    height: 60px;
+  }
+  .score-panel {
+    width: 200px;
+  }
+  #timer {
+    margin-right: 2rem;
+  }
+  .score-panel .restart {
+    float: center;
+    cursor: pointer;
+  }
+}
+@media screen and (max-width: 320px) {
+  .deck .card  {
+    width: 55px;
+    height: 55px;
+  }
+}
+@media screen and (max-width: 300px) {
+  .deck .card  {
+    width: 45px;
+    height: 45px;
+  }
+}
+
